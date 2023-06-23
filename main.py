@@ -20,7 +20,7 @@ async def about():
 
 
 # importamos los datos
-movies_final = pd.read_csv('Ingenieria_Datos\movies_final.csv',parse_dates=['release_date'])
+movies_final = pd.read_csv('movies_final.csv',parse_dates=['release_date'])
 #credits = pd.read_csv('Ingenieria_Datos\credits_1.csv')
 #movies_final = pd.read_csv('Ingenieria_Datos\movies_final.csv')
 
