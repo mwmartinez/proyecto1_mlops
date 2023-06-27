@@ -1,12 +1,20 @@
 from fastapi import FastAPI
 import pandas as pd 
 import numpy as np
-#import sklearn
-#from sklearn.feature_extraction.text import CountVectorizer 
-#from sklearn.neighbors import NearestNeighbors
+import sklearn
+from sklearn.feature_extraction.text import CountVectorizer 
+from sklearn.neighbors import NearestNeighbors
 
-app = FastAPI(title='Proyecto Machine Learning Operations (MLOps) - Michael Martinez',
-              description='API de datos y recomendaciones de películas')
+
+app = FastAPI(title="Proyecto Machine Learning Operations (MLOps) ",
+              description=""" **Realizado por Michael Martinez** [Linkedin](https://www.linkedin.com/in/michael-mart%C3%ADnez/)
+              \n En este proyecto, creamos un sistema de recomendación de películas utilizando técnicas de Machine Learning.
+              \n El sistema está desarrollado en Python, con la ayuda de FastAPI y Render, para ofrecer una interfaz web interactiva. """
+              )
+
+# importamos los datos
+movies_final = pd.read_csv('movies_final.csv',parse_dates=['release_date'])
+movies_ml = pd.read_csv('movies_ml.csv',parse_dates=['release_date'])
 
 # Función para reconocer el servidor local
 
@@ -17,12 +25,6 @@ async def index():
 @app.get('/about/')
 async def about():
     return {'PROYECTO INDIVIDUAL Nº1 -Machine Learning Operations (MLOps)'}
-
-
-# importamos los datos
-movies_final = pd.read_csv('movies_final.csv',parse_dates=['release_date'])
-#credits = pd.read_csv('Ingenieria_Datos\credits_1.csv')
-#movies_final = pd.read_csv('Ingenieria_Datos\movies_final.csv')
 
 
 @app.get('/cantidad_filmaciones_mes/{mes}')
@@ -174,3 +176,37 @@ def get_director(nombre_director:str):
         }
     else:
         return f"No se encontraron registros para el director {nombre_director}."
+
+# Modelo de recomendación
+
+#   Creamos una matriz de conteo usando CountVectorizer que convierte los textos en una matriz de frecuencias de palabras
+cv = CountVectorizer(stop_words='english', max_features=5000)
+count_matrix = cv.fit_transform(movies_ml['combined_features'])
+
+# Creamos un modelo para encontrar los vecinos mas cercanos en un espacio de caracteristicas
+nn = NearestNeighbors(metric='cosine', algorithm='brute')
+nn.fit(count_matrix)
+
+# Creamos un indice de titulos de peliculas y eliminamos los duplicados
+indices = pd.Series(movies_ml.index, index=movies_ml['title']).drop_duplicates()
+
+#funcion recomendacion
+@app.get("/recomendacion/{titulo}")
+def recomendacion(titulo: str):
+    '''Ingresas un nombre de película y te recomienda 5 similares
+    '''
+    # Verificamos si el titulo ingresado se encuentra en el dataset
+    if titulo not in movies_ml['title'].values:
+        return 'La pelicula no se encuentra en el conjunto de la base de datos.'
+    else:
+        # Obtenemos el índice de la película que coincide con el título
+        index = indices[titulo]
+
+        # Obtenemos las puntuaciones de similitud de las 5 peliculas más cercanas
+        distances, indices_knn = nn.kneighbors(count_matrix[index], n_neighbors=6)  
+
+        # Obtenemos los indices de las peliculas
+        movie_indices = indices_knn[0][1:]  
+
+        # Devolvemos las 5 peliculas mas similares
+        return {'lista recomendada': movies_ml['title'].iloc[movie_indices].tolist()}
