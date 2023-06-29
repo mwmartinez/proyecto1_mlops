@@ -30,7 +30,7 @@ En este proyecto, se utilizan tres conjuntos de datos distintos que ya han pasad
 
 [movies_final](https://github.com/mwmartinez/proyecto1_mlops/blob/main/movies_ml.csv) Este conjunto de datos es el resultado de la etapa de ingeniería de datos (ETL) y utilizado en el desarrollo del framework de FastAPI, Contiene información de las películas para realizar sus consultas.
 
-[movies_eda]() Este conjunto de datos es utilizado en el analisis exploratorio y poder realizar todos los graficos, correlaciones y sacar conclusiones para ser usadas en las predicciones.
+[movies_eda](https://github.com/mwmartinez/proyecto1_mlops/blob/main/movies_eda.csv) Este conjunto de datos es utilizado en el analisis exploratorio y poder realizar todos los graficos, correlaciones y sacar conclusiones para ser usadas en las predicciones.
 
 [movies_ml](https://github.com/mwmartinez/proyecto1_mlops/blob/main/movies_ml.csv) Este conjunto de datos es utilizado en el proceso de desarrollo del modelo de machine learning.
 
