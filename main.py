@@ -7,7 +7,7 @@ from sklearn.neighbors import NearestNeighbors
 
 
 app = FastAPI(title="Proyecto Machine Learning Operations (MLOps) ",
-              description=""" **Realizado por Michael Martinez** [Linkedin](https://www.linkedin.com/in/michael-mart%C3%ADnez/)
+              description=""" **Realizado por Michael Martinez** [Linkedin](https://www.linkedin.com/in/michael-mart%C3%ADnez/) [Github](https://github.com/mwmartinez)
               \n En este proyecto, creamos un sistema de recomendación de películas utilizando técnicas de Machine Learning.
               \n El sistema está desarrollado en Python, con la ayuda de FastAPI y Render, para ofrecer una interfaz web interactiva. """
               )
