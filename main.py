@@ -5,7 +5,6 @@ import sklearn
 from sklearn.feature_extraction.text import CountVectorizer 
 from sklearn.neighbors import NearestNeighbors
 
-
 app = FastAPI(title="Proyecto Machine Learning Operations (MLOps) ",
               description=""" **Realizado por Michael Martinez** [Linkedin](https://www.linkedin.com/in/michael-mart%C3%ADnez/) [Github](https://github.com/mwmartinez)
               \n En este proyecto, creamos un sistema de recomendación de películas utilizando técnicas de Machine Learning.
@@ -22,14 +21,9 @@ movies_ml = pd.read_csv('movies_ml.csv',parse_dates=['release_date'])
 async def index():
     return {'Hola! Bienvenido a la API de recomedación. Por favor dirigite a /docs'}
 
-@app.get('/about/')
-async def about():
-    return {'PROYECTO INDIVIDUAL Nº1 -Machine Learning Operations (MLOps)'}
-
-
 @app.get('/cantidad_filmaciones_mes/{mes}')
 def cantidad_filmaciones_mes(mes:str):
-     #Se ingresa el mes y la funcion retorna la cantidad de peliculas que se estrenaron ese mes historicamente
+    '''Se ingresa el mes y la funcion retorna la cantidad de peliculas que se estrenaron en ese mes historicamente'''
     
     # convertir el mes consultado a minuscula
     mes = mes.lower()
@@ -68,7 +62,7 @@ def cantidad_filmaciones_mes(mes:str):
 
 @app.get('/cantidad_filmaciones_dia/{dia}')
 def cantidad_filmaciones_dia(dia:str):
-    #Se ingresa el dia y la funcion retorna la cantidad de peliculas que se estrebaron ese dia historicamente
+    '''Se ingresa el dia y la funcion retorna la cantidad de peliculas que se estrenaron ese dia historicamente'''
     
     #diccionario de cada dia, con su valor en ingles para utilixar el metodo day_name()
     days = {
@@ -92,7 +86,7 @@ def cantidad_filmaciones_dia(dia:str):
 
 @app.get('/score_titulo/{titulo}')
 def score_titulo(titulo:str):
-     #Se ingresa el título de una filmación esperando como respuesta el título, el año de estreno y el score
+    #Se ingresa el título de una filmación esperando como respuesta el título, el año de estreno y el score'''
     
     #filtro los datos por medio del titulo y elimino los duplicados
    lista_peliculas_title = movies_final[movies_final['title'] == titulo].drop_duplicates(subset='title')    
@@ -106,9 +100,9 @@ def score_titulo(titulo:str):
 
 @app.get('/votos_titulo/{titulo}')
 def votos_titulo(titulo:str):
-    '''Se ingresa el título de una filmación esperando como respuesta el título, la cantidad de votos y el valor promedio de las votaciones. 
-    La misma variable deberá de contar con al menos 2000 valoraciones, 
-    caso contrario, debemos contar con un mensaje avisando que no cumple esta condición y que por ende, no se devuelve ningun valor.'''
+    #Se ingresa el título de una filmación esperando como respuesta el título, la cantidad de votos y el valor promedio de las votaciones. 
+    #La misma variable deberá de contar con al menos 2000 valoraciones, 
+    #caso contrario, debemos contar con un mensaje avisando que no cumple esta condición y que por ende, no se devuelve ningun valor.'''
     
     #filtro los datos por medio del titulo y elimino los duplicados
     lista_peliculas_title = movies_final[movies_final['title'] == titulo].drop_duplicates(subset='title')    
@@ -127,8 +121,8 @@ def votos_titulo(titulo:str):
     
 @app.get('/get_actor/{nombre_actor}')
 def get_actor(nombre_actor:str):
-  #Se ingresa el nombre de un actor que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. 
-   # Además, la cantidad de películas que en las que ha participado y el promedio de retorno'''
+    #Se ingresa el nombre de un actor que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. 
+    #Además, la cantidad de películas que en las que ha participado y el promedio de retorno'''
         
     # Filtrar los datos por nombre del actor y eliminar duplicados
     lista_peli_actor = movies_final[movies_final['name_cast'].apply(lambda x: nombre_actor in x)].drop_duplicates(subset='id')
@@ -151,8 +145,8 @@ def get_actor(nombre_actor:str):
     
 @app.get('/get_director/{nombre_director}')
 def get_director(nombre_director:str):
-    # Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. 
-   #Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma.'''
+    '''Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. 
+    Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma.'''
     
     # Filtrar los datos por nombre del director y eliminar duplicados
     lista_peli_director = movies_final[movies_final['name_crew'].apply(lambda x: nombre_director in x)].drop_duplicates(subset='id')

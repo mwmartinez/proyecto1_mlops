@@ -125,7 +125,7 @@ La plataforma Render proporciona un entorno estable y escalable para alojar y ej
 
 # Video
 
-En el siguiente enlace puedes observar la explicacion del proyecto en cada una de sus funciones [video]()
+En el siguiente enlace puedes observar la explicacion del proyecto en cada una de sus funciones [video](https://drive.google.com/file/d/1X8yPRQfc1_xQCHCJJUw6rmP-sEoEsQiE/view?usp=sharing)
 
 # Herramientas tecnologicas
 
